@@ -12,6 +12,7 @@ public class IMClient {
 
         String hostName = args[0];
         int portNumber = Integer.parseInt(args[1]);
+        //*GET USERNAME AS ONE OF THE ARGS */
         String userName = args[2];
 
         try (
@@ -25,16 +26,22 @@ public class IMClient {
             String fromServer;
             String fromUser;
 
+            //*INITIAL MESSAGE IS USERNAME -> SEND TO SERVER TO PROCESS*/
             out.println(userName);
 
+            //*WHILE BUFFER STREAM IS OPEN FROM SERVER */
             while ((fromServer = in.readLine()) != null) {
+                //*PRINT MESSAGES FROM SERVER */
                 System.out.println("Server: " + fromServer);
+                //*IF MESSAGE IS BYE. END CONNECTION */
                 if (fromServer.equals("Bye."))
                     break;
                 
+                //*GET INPUT FROM CLIENT SIDE */
+                System.out.print(userName + ": ");
                 fromUser = stdIn.readLine();
+                //*IF THERE IS A VALUE ENTERED -> SEND TO SERVER */
                 if (fromUser != null) {
-                    System.out.println("Client: " + fromUser);
                     out.println(fromUser);
                 }
             }

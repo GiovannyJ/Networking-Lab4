@@ -12,8 +12,11 @@ public class IMMultiServer {
         int portNumber = Integer.parseInt(args[0]);
         boolean listening = true;
         
+        //**SENT A NEW SOCKET WITH PORT NUMBER */
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) { 
+        //**WHILE IT IS ACTIVE */
             while (listening) {
+                //**ACTIVATE NEW THREAD */
 	            new IMMultiServerThread(serverSocket.accept()).start();
 	        }
 	    } catch (IOException e) {

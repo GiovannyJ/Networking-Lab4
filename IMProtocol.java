@@ -16,7 +16,7 @@ public class IMProtocol {
      * @return string according to the input variable
      */
     public String processInput(String theInput) {
-        //*Initialize the outpur */
+        //*Initialize the output */
         String theOutput = null;
 
         if (state == WAITING) {

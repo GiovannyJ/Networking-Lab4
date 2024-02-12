@@ -20,17 +20,36 @@ public class IMMultiServerThread extends Thread {
         ) {
             String inputLine, outputLine;
             IMProtocol kkp = new IMProtocol();
+            BufferedReader stdIn =
+                new BufferedReader(new InputStreamReader(System.in));
+            //*SEND INITIAL MESSAGE TO CLIENT THAT THE CONNECTION IS ESTABLISHED */
             outputLine = kkp.processInput(null);
             out.println(outputLine);
-
+            
+            //**THE FIRST LINE FROM THE USER IS THEIR NAME */
+            inputLine = in.readLine();
+            this.userName = inputLine;
+            
+            //**WHILE YOU CAN READ INPUT FROM THE BUFFER STREAM */
             while ((inputLine = in.readLine()) != null) {
+                //**ALL MESSAGES IN THIS THREAD ARE FROM THE USERNAME THAT IS SAVED */
+                //*print to this thread */
+                System.out.println(this.userName + ":" + inputLine);
+                //*determine output */
                 outputLine = kkp.processInput(inputLine);
-                this.userName = inputLine;
-                System.out.println(this.userName + ":" + outputLine);
-                out.println(outputLine);
-                if (outputLine.equals("Bye"))
+
+                //*If the output is bye close connection */
+                if (outputLine.equals("Bye.")){
                     break;
+                }else{
+                    //*GET INPUT FROM SERVER SIDE */
+                    System.out.print("Server: ");
+                    outputLine = stdIn.readLine();
+                    //*SEND OUTPUT TO CLIENT ON THREAD */
+                    out.println(outputLine);
+                }
             }
+            //*CLOSE CONNECTION IF YOU ARE DONE */
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
